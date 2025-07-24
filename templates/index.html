@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Szukanie trójkątów w grafach nieskierowanych</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 20px 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 14px; 
+        }
+        header {
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            margin: 0;
+            color: #2980b9;
+            font-size: 1.8em;
+        }
+        header p {
+            margin-top: 5px;
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        section {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+            margin-bottom: 25px;
+        }
+        section h2 {
+            color: #34495e;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 6px;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.3;
+            color: #2c3e50;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+        textarea {
+            width: 100%;
+            height: 110px;
+            padding: 8px;
+            font-family: Consolas, monospace;
+            font-size: 0.9em;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        input[type="file"] {
+            margin-top: 6px;
+            font-size: 0.9em;
+        }
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1f5f8b;
+        }
+        #clearFile {
+            background-color: #c0392b;
+        }
+        #clearFile:hover {
+            background-color: #922b21;
+        }
+        #result {
+            margin-top: 18px;
+            background-color: #ecf0f1;
+            padding: 12px;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+            white-space: pre-wrap;
+            min-height: 50px;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+        .error {
+            color: #c0392b;
+            font-weight: 700;
+        }
+        footer {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.8em;
+            margin-top: 40px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Szukanie trójkątów w grafach nieskierowanych i spójnych</h1>
+        <p>Analiza struktury grafów na podstawie list sąsiedztwa – wykrywanie podgrafów w postaci trójkątów</p>
+    </header>
+
+    <section>
+        <h2>Co to są trójkąty w grafach?</h2>
+        <p>
+            Trójkąt w grafie to podgraf składający się z trzech wierzchołków, w którym każdy wierzchołek jest połączony krawędzią z dwoma pozostałymi, czyli jest to cykl o długości 3.
+            Trójkąty w grafach mają znaczenie w analizie sieci komputerowych i systemów rozproszonych, gdzie wskazują na silne wzajemne powiązania między węzłami, co może wpływać na odporność i wydajność sieci.
+        </p>
+        <p>
+            Zadaniem tej aplikacji jest znalezienie trójkątów w <strong>grafach nieskierowanych</strong>, które są <strong>spójne</strong> – to znaczy, że istnieje ścieżka między każdą parą wierzchołków.
+        </p>
+    </section>
+
+    <section>
+        <h2>Format danych – lista sąsiedztwa w JSON</h2>
+        <p>Graf należy przedstawić w postaci listy sąsiedztwa w formacie JSON, gdzie kluczem jest wierzchołek, a wartością lista jego sąsiadów.</p>
+        <p>Przykładowy graf:</p>
+        <pre>{
+    "0": ["1", "2"],
+    "1": ["0", "2", "3"],
+    "2": ["0", "1", "3"],
+    "3": ["1", "2"]
+}</pre>
+        <p><em>Uwaga:</em> Zarówno klucze, jak i wartości powinny być napisane jako <strong>stringi</strong> (czyli w cudzysłowach).</p>
+    </section>
+
+    <section>
+        <h2>Wprowadź graf do analizy</h2>
+        <form id="graphForm">
+            <label for="graphInput">Wprowadź graf ręcznie (JSON):</label>
+            <textarea id="graphInput" placeholder='Wprowadź JSON tutaj...'></textarea>
+
+            <label for="fileInput">Lub załaduj plik JSON albo plik tekstowy (.txt) zawierający dane w formacie JSON :</label>
+            <input type="file" id="fileInput" accept=".json,.txt" />
+
+            <div class="button-group">
+                <button type="button" id="clearFile">Usuń plik</button>
+                <button type="submit">Sprawdź graf</button>
+            </div>
+        </form>
+
+        <div id="result">Oczekiwanie na dane wejściowe...</div>
+    </section>
+
+<script>
+    $('#graphForm').submit(function(e) {
+        e.preventDefault();
+        let graphData = $('#graphInput').val();
+
+        if ($('#fileInput')[0].files.length > 0) {
+            let file = $('#fileInput')[0].files[0];
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                graphData = e.target.result;
+                sendGraph(graphData);
+            };
+            reader.readAsText(file);
+        } else {
+            sendGraph(graphData);
+        }
+    });
+
+    $('#clearFile').click(function() {
+        $('#fileInput').val('');
+        $('#result').text('Załączony plik został usunięty.');
+    });
+
+    function sendGraph(graphData) {
+        $.post('/check', { graph: graphData }, function(response) {
+            if (response.error) {
+                $('#result').html('<span class="error">Błąd: ' + response.error + '</span>');
+            } else {
+                if (!response.spojny) {
+                    $('#result').html('<span class="error">Graf jest niespójny, dlatego nie szukamy trójkątów.</span>');
+                } else {
+                    let resultText = 'Graf spójny: TAK\n\n';
+                    resultText += 'Znalezione trójkąty:\n';
+                    if(response.trojkaty.length > 0){
+                        response.trojkaty.forEach(function(tri){
+                            resultText += '- [' + tri.join(', ') + ']\n';
+                        });
+                    } else {
+                        resultText += 'Brak trójkątów w grafie.';
+                    }
+                    $('#result').text(resultText);
+                }
+            }
+        });
+    }
+</script>
+
+    <footer>
+        Maja Fiszer, Marta Czarnecka
+    </footer>
+</body>
+</html>
