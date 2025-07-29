@@ -11,8 +11,10 @@ Dane wejściowe zapisane są jako lista sąsiedztwa w formacie JSON:
 ```json
 {
   "A": ["B", "C"],
-  "B": ["A", "C"],
-  "C": ["A", "B"]
+  "B": ["A", "C", "D"],
+  "C": ["A", "B"],
+  "D": ["B", "E"],
+  "E": ["D"]
 }
 ```
 
@@ -32,9 +34,10 @@ Dane wejściowe zapisane są jako lista sąsiedztwa w formacie JSON:
 W folderze `dist/` znajduje się gotowy plik `.exe`.  
 
 ## Podgląd strony
-
-<img width="609" height="575" alt="Zrzut ekranu 2025-07-30 014316" src="https://github.com/user-attachments/assets/ded7de6d-7052-44b3-80fc-909fe117a65f" /><img width="609" height="484" alt="image" src="https://github.com/user-attachments/assets/7771c00b-7791-4418-ad2b-6477ef066ae1" />
-
+<div style="text-align: center;">
+  <img width="609" height="575" alt="Zrzut ekranu 2025-07-30 014316" src="https://github.com/user-attachments/assets/ded7de6d-7052-44b3-80fc-909fe117a65f" />
+  <img width="609" height="484" alt="image" src="https://github.com/user-attachments/assets/7771c00b-7791-4418-ad2b-6477ef066ae1" />
+</div>
 
 
 ## Struktura projektu
