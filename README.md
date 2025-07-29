@@ -31,6 +31,10 @@ Dane wejściowe zapisane są jako lista sąsiedztwa w formacie JSON:
 
 W folderze `dist/` znajduje się gotowy plik `.exe`.  
 
+## Podgląd aplikacji
+<img width="474" height="759" alt="image" src="https://github.com/user-attachments/assets/80dce54a-76f3-43c6-93ba-d7cdf4e3c923" />
+
+
 ## Struktura projektu
 
 - `app.py` – główny plik aplikacji Flask (logika działania)
