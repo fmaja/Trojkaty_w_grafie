@@ -35,10 +35,10 @@ W folderze `dist/` znajduje się gotowy plik `.exe`.
 
 ## Podgląd strony
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-  <img width="609" height="575" alt="Zrzut ekranu 2025-07-30 014316" src="https://github.com/user-attachments/assets/ded7de6d-7052-44b3-80fc-909fe117a65f" />
-  <img width="609" height="484" alt="image" src="https://github.com/user-attachments/assets/7771c00b-7791-4418-ad2b-6477ef066ae1" />
-</div>
+| Screenshot 1 | Screenshot 2 |
+|--------------|--------------|
+| <img width="400" alt="Screenshot 1" src="https://github.com/user-attachments/assets/ded7de6d-7052-44b3-80fc-909fe117a65f" /> | <img width="400" alt="Screenshot 2" src="https://github.com/user-attachments/assets/7771c00b-7791-4418-ad2b-6477ef066ae1" /> |
+
 
 ## Struktura projektu
 
